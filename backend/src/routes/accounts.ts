@@ -392,26 +392,4 @@ router.post('/:id/disconnect', async (req, res) => {
   }
 });
 
-// GET /api/accounts/status - Get connection status for all accounts
-router.get('/status', async (req, res) => {
-  try {
-    const connectedAccounts = await imapService.getConnectedAccounts();
-
-    res.json({
-      success: true,
-      data: {
-        connectedAccounts,
-        totalConnections: connectedAccounts.length
-      }
-    });
-
-  } catch (error) {
-    logger.error('Error in GET /api/accounts/status:', error);
-    res.status(500).json({
-      success: false,
-      error: 'Failed to fetch account status'
-    });
-  }
-});
-
 export default router;
