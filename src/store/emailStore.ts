@@ -178,7 +178,7 @@ export const useEmailStore = create<EmailStore>((set, get) => ({
       // Update email in list if it exists
       const emails = get().emails;
       const updatedEmails = emails.map(email =>
-        email.id === id ? { ...email, category, aiProcessed: true } : email
+        email.id === id ? { ...email, category: category as EmailCategory, aiProcessed: true } : email
       );
       set({ emails: updatedEmails });
     } catch (error) {
