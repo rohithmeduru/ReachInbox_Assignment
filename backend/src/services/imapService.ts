@@ -153,17 +153,17 @@ export class ImapService {
         messageId: messageData.envelope?.messageId || `${uid}@${account.email}`,
         subject: parsed.subject || '(No Subject)',
         from: {
-          email: parsed.from?.value[0]?.address || '',
-          name: parsed.from?.value[0]?.name || ''
+          email: Array.isArray(parsed.from?.value) ? parsed.from.value[0]?.address || '' : parsed.from?.address || '',
+          name: Array.isArray(parsed.from?.value) ? parsed.from.value[0]?.name || '' : parsed.from?.name || ''
         },
-        to: parsed.to?.value.map((addr: any) => ({
+        to: Array.isArray(parsed.to?.value) ? parsed.to.value.map((addr: any) => ({
           email: addr.address || '',
           name: addr.name || ''
-        })) || [],
-        cc: parsed.cc?.value.map((addr: any) => ({
+        })) : (parsed.to ? [{ email: parsed.to.address || '', name: parsed.to.name || '' }] : []),
+        cc: Array.isArray(parsed.cc?.value) ? parsed.cc.value.map((addr: any) => ({
           email: addr.address || '',
           name: addr.name || ''
-        })),
+        })) : (parsed.cc ? [{ email: parsed.cc.address || '', name: parsed.cc.name || '' }] : []),
         body: parsed.text || '',
         htmlBody: parsed.html || undefined,
         date: parsed.date || new Date(),
