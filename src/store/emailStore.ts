@@ -169,7 +169,7 @@ export const useEmailStore = create<EmailStore>((set, get) => ({
         set({
           currentEmail: {
             ...currentEmail,
-            category,
+            category: category as EmailCategory,
             aiProcessed: true
           }
         });
