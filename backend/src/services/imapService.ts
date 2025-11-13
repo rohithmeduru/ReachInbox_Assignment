@@ -1,6 +1,7 @@
 import { ImapFlow } from 'imapflow';
 import { simpleParser } from 'mailparser';
-import { EmailAccount, Email } from '../models/email';
+import { Email } from '../models/email';
+import { EmailAccount } from '../models/account';
 import { elasticsearchService } from './elasticsearchService';
 import { aiCategorizationService } from './aiCategorizationService';
 import { logger } from '../utils/logger';
