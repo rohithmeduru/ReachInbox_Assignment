@@ -45,8 +45,16 @@ class ImapService {
                 const lock = await client.getMailboxLock(folder);
                 // Listen for new messages
                 client.on('exists', async (data) => {
-                    if (data.uid) {
-                        await this.fetchAndProcessEmail(client, data.uid, account, folder);
+                    // For new messages, we need to get the latest UID
+                    try {
+                        const status = await client.status(folder);
+                        if (status.uidNext && status.uidNext > 1) {
+                            const latestUid = status.uidNext - 1;
+                            await this.fetchAndProcessEmail(client, latestUid, account, folder);
+                        }
+                    }
+                    catch (error) {
+                        logger_1.logger.error(`Failed to fetch latest UID for folder ${folder}:`, error);
                     }
                 });
                 // Enable IDLE mode for real-time updates
@@ -79,10 +87,11 @@ class ImapService {
                 const searchResult = await client.search({
                     since: thirtyDaysAgo,
                 }, { uid: true });
-                logger_1.logger.info(`Found ${searchResult.length} emails in ${folder} for ${account.email}`);
+                const uids = Array.isArray(searchResult) ? searchResult : [];
+                logger_1.logger.info(`Found ${uids.length} emails in ${folder} for ${account.email}`);
                 // Process in batches to avoid memory issues
-                for (let i = 0; i < searchResult.length; i += constants_1.EMAIL_BATCH_SIZE) {
-                    const batch = searchResult.slice(i, i + constants_1.EMAIL_BATCH_SIZE);
+                for (let i = 0; i < uids.length; i += constants_1.EMAIL_BATCH_SIZE) {
+                    const batch = uids.slice(i, i + constants_1.EMAIL_BATCH_SIZE);
                     for (const uid of batch) {
                         await this.fetchAndProcessEmail(client, uid, account, folder);
                     }
@@ -102,28 +111,28 @@ class ImapService {
             const message = await client.fetchOne(uid, {
                 source: true,
                 envelope: true,
-                flags: true,
-                structure: true
+                flags: true
             });
-            if (!message.source) {
+            const messageData = message;
+            if (!messageData.source) {
                 logger_1.logger.warn(`No source found for UID ${uid} in ${folder}`);
                 return;
             }
             // Parse email using mailparser
-            const parsed = await (0, mailparser_1.simpleParser)(message.source);
+            const parsed = await (0, mailparser_1.simpleParser)(messageData.source);
             // Extract email data
             const email = {
-                messageId: message.envelope?.messageId || `${uid}@${account.email}`,
+                messageId: messageData.envelope?.messageId || `${uid}@${account.email}`,
                 subject: parsed.subject || '(No Subject)',
                 from: {
                     email: parsed.from?.value[0]?.address || '',
                     name: parsed.from?.value[0]?.name || ''
                 },
-                to: parsed.to?.value.map(addr => ({
+                to: parsed.to?.value.map((addr) => ({
                     email: addr.address || '',
                     name: addr.name || ''
                 })) || [],
-                cc: parsed.cc?.value.map(addr => ({
+                cc: parsed.cc?.value.map((addr) => ({
                     email: addr.address || '',
                     name: addr.name || ''
                 })),
@@ -132,7 +141,7 @@ class ImapService {
                 date: parsed.date || new Date(),
                 accountId: account.id,
                 folder,
-                flags: message.flags || [],
+                flags: messageData.flags || [],
                 attachments: parsed.attachments?.map(att => ({
                     filename: att.filename || '',
                     contentType: att.contentType || '',
