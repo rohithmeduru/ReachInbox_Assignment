@@ -127,8 +127,8 @@ export class ElasticsearchService {
           }
         },
         sort: [
-          { date: { order: 'desc' } },
-          { _score: { order: 'desc' } }
+          { date: { order: 'desc' as const } },
+          { _score: { order: 'desc' as const } }
         ],
         from: params.offset || 0,
         size: params.limit || 50
