@@ -123,13 +123,13 @@ class ElasticsearchService {
                 index: elasticsearch_1.emailIndexName,
                 body: searchQuery
             });
-            const emails = response.body.hits.hits.map((hit) => ({
+            const emails = response.hits.hits.map((hit) => ({
                 ...hit._source,
                 id: hit._id
             }));
             return {
                 emails,
-                total: response.body.hits.total.value
+                total: response.hits.total.value
             };
         }
         catch (error) {
@@ -144,8 +144,8 @@ class ElasticsearchService {
                 id: emailId
             });
             return {
-                ...response.body._source,
-                id: response.body._id
+                ...response._source,
+                id: response._id
             };
         }
         catch (error) {
@@ -180,12 +180,12 @@ class ElasticsearchService {
                 }
             });
             return {
-                total: response.body.hits.total.value,
-                byCategory: response.body.aggregations.categories.buckets.reduce((acc, bucket) => {
+                total: response.hits.total.value,
+                byCategory: response.aggregations.categories.buckets.reduce((acc, bucket) => {
                     acc[bucket.key] = bucket.doc_count;
                     return acc;
                 }, {}),
-                byFolder: response.body.aggregations.folders.buckets.reduce((acc, bucket) => {
+                byFolder: response.aggregations.folders.buckets.reduce((acc, bucket) => {
                     acc[bucket.key] = bucket.doc_count;
                     return acc;
                 }, {})

@@ -132,10 +132,7 @@ ${email.body.substring(0, 2000)} // Limit to first 2000 chars for analysis
             // Find uncategorized emails
             const { emails } = await elasticsearchService_1.elasticsearchService.searchEmails({
                 query: '',
-                limit,
-                filters: [{
-                        term: { aiProcessed: false }
-                    }]
+                limit
             });
             logger_1.logger.info(`Found ${emails.length} uncategorized emails to process`);
             for (const email of emails) {

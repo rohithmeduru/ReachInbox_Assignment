@@ -1,4 +1,4 @@
-import { EmailAccount } from '../models/email';
+import { EmailAccount } from '../models/account';
 export declare class ImapService {
     private connections;
     private reconnectAttempts;
