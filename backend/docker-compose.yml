@@ -1,0 +1,37 @@
+version: '3.8'
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
+    container_name: elasticsearch-emails
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ports:
+      - "9200:9200"
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    networks:
+      - email-network
+
+  postgres:
+    image: postgres:15
+    container_name: postgres-emails
+    environment:
+      - POSTGRES_DB=email_onebox
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - email-network
+
+volumes:
+  elasticsearch_data:
+  postgres_data:
+
+networks:
+  email-network:
+    driver: bridge
