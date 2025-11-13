@@ -11,44 +11,44 @@ export const emailIndexName = 'emails';
 export const emailMapping = {
   mappings: {
     properties: {
-      messageId: { type: 'keyword' },
-      threadId: { type: 'keyword' },
+      messageId: { type: 'keyword' } as MappingProperty,
+      threadId: { type: 'keyword' } as MappingProperty,
       subject: {
         type: 'text',
         fields: {
-          keyword: { type: 'keyword' }
+          keyword: { type: 'keyword' } as MappingProperty
         }
-      },
+      } as MappingProperty,
       from: {
         properties: {
-          email: { type: 'keyword' },
-          name: { type: 'text' }
+          email: { type: 'keyword' } as MappingProperty,
+          name: { type: 'text' } as MappingProperty
         }
-      },
+      } as MappingProperty,
       to: {
         properties: {
-          email: { type: 'keyword' },
-          name: { type: 'text' }
+          email: { type: 'keyword' } as MappingProperty,
+          name: { type: 'text' } as MappingProperty
         }
-      },
-      body: { type: 'text' },
-      htmlBody: { type: 'text' },
-      date: { type: 'date' },
-      accountId: { type: 'keyword' },
-      folder: { type: 'keyword' },
-      flags: { type: 'keyword' },
+      } as MappingProperty,
+      body: { type: 'text' } as MappingProperty,
+      htmlBody: { type: 'text' } as MappingProperty,
+      date: { type: 'date' } as MappingProperty,
+      accountId: { type: 'keyword' } as MappingProperty,
+      folder: { type: 'keyword' } as MappingProperty,
+      flags: { type: 'keyword' } as MappingProperty,
       attachments: {
         properties: {
-          filename: { type: 'keyword' },
-          contentType: { type: 'keyword' },
-          size: { type: 'long' }
+          filename: { type: 'keyword' } as MappingProperty,
+          contentType: { type: 'keyword' } as MappingProperty,
+          size: { type: 'long' } as MappingProperty
         }
-      },
-      category: { type: 'keyword' },
-      categoryConfidence: { type: 'float' },
-      aiProcessed: { type: 'boolean' },
-      createdAt: { type: 'date' },
-      updatedAt: { type: 'date' }
+      } as MappingProperty,
+      category: { type: 'keyword' } as MappingProperty,
+      categoryConfidence: { type: 'float' } as MappingProperty,
+      aiProcessed: { type: 'boolean' } as MappingProperty,
+      createdAt: { type: 'date' } as MappingProperty,
+      updatedAt: { type: 'date' } as MappingProperty
     }
   }
 };
