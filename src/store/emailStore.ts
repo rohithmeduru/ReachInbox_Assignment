@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { Email, EmailSearchParams, EmailSearchResult, ReplySuggestion, MultipleReplySuggestions, EmailStats, EmailAccount } from '../types/email';
+import { Email, EmailSearchParams, EmailSearchResult, ReplySuggestion, MultipleReplySuggestions, EmailStats, EmailAccount, EmailCategory } from '../types/email';
 import { api } from '../lib/api';
 
 interface EmailStore {
