@@ -139,14 +139,14 @@ export class ElasticsearchService {
         body: searchQuery
       });
 
-      const emails = response.body.hits.hits.map((hit: any) => ({
+      const emails = response.hits.hits.map((hit: any) => ({
         ...hit._source,
         id: hit._id
       }));
 
       return {
         emails,
-        total: response.body.hits.total.value
+        total: response.hits.total.value
       };
 
     } catch (error) {
