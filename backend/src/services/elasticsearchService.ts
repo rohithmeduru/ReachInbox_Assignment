@@ -140,13 +140,17 @@ export class ElasticsearchService {
       });
 
       const emails = response.hits.hits.map((hit: any) => ({
-        ...hit._source,
+        ...(hit._source as any),
         id: hit._id
       }));
 
+      const total = typeof response.hits.total === 'number'
+        ? response.hits.total
+        : response.hits.total?.value || 0;
+
       return {
         emails,
-        total: response.hits.total.value
+        total
       };
 
     } catch (error) {
