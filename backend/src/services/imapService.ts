@@ -150,17 +150,17 @@ export class ImapService {
 
       // Extract email data
       const email: Email = {
-        messageId: message.envelope?.messageId || `${uid}@${account.email}`,
+        messageId: messageData.envelope?.messageId || `${uid}@${account.email}`,
         subject: parsed.subject || '(No Subject)',
         from: {
           email: parsed.from?.value[0]?.address || '',
           name: parsed.from?.value[0]?.name || ''
         },
-        to: parsed.to?.value.map(addr => ({
+        to: parsed.to?.value.map((addr: any) => ({
           email: addr.address || '',
           name: addr.name || ''
         })) || [],
-        cc: parsed.cc?.value.map(addr => ({
+        cc: parsed.cc?.value.map((addr: any) => ({
           email: addr.address || '',
           name: addr.name || ''
         })),
@@ -169,7 +169,7 @@ export class ImapService {
         date: parsed.date || new Date(),
         accountId: account.id,
         folder,
-        flags: message.flags || [],
+        flags: messageData.flags || [],
         attachments: parsed.attachments?.map(att => ({
           filename: att.filename || '',
           contentType: att.contentType || '',
