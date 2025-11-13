@@ -1,0 +1,24 @@
+{
+  "version": 2,
+  "name": "reachinbox-backend-api",
+  "builds": [
+    {
+      "src": "dist/app.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/dist/app.js"
+    }
+  ],
+  "env": {
+    "DATABASE_URL": "@database_url",
+    "ELASTICSEARCH_URL": "@elasticsearch_url",
+    "OPENAI_API_KEY": "@openai_api_key",
+    "SLACK_BOT_TOKEN": "@slack_bot_token",
+    "SLACK_WEBHOOK_URL": "@slack_webhook_url",
+    "NODE_ENV": "production"
+  }
+}

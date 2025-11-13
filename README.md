@@ -1,36 +1,85 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ReachInbox Email Onebox System
 
-## Getting Started
+A comprehensive email onebox solution with real-time synchronization, AI-powered categorization, and intelligent reply suggestions.
 
-First, run the development server:
+## 🚀 Deployment Options
 
+### 1. **Quick Deploy with Vercel (Recommended)**
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Deploy frontend to Vercel
+npm install -g vercel
+cd /workspace/cmhxcqi3p009ko6ikddtxla0m/ReachInbox_Assignment
+vercel --prod
+
+# Deploy backend to Vercel Serverless
+vercel backend --prod
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. **Docker Deployment**
+```bash
+# Build and run with Docker
+docker-compose up -d
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 3. **Manual Cloud Deployment**
+- **Frontend**: Deploy to Vercel, Netlify, or AWS S3
+- **Backend**: Deploy to Heroku, AWS EC2, or DigitalOcean
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📋 Prerequisites
 
-## Learn More
+- Node.js 18+
+- PostgreSQL 13+
+- Elasticsearch 8.x
+- OpenAI API key
+- Slack Bot Token (optional)
 
-To learn more about Next.js, take a look at the following resources:
+## 🔧 Environment Setup
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Frontend Environment (.env.local)
+```env
+NEXT_PUBLIC_API_URL=https://your-backend-url.com/api
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Backend Environment (.env)
+```env
+# Database
+DATABASE_URL=postgresql://user:password@host:5432/email_onebox
 
-## Deploy on Vercel
+# Services
+ELASTICSEARCH_URL=http://localhost:9200
+OPENAI_API_KEY=your_openai_api_key
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# Integrations
+SLACK_BOT_TOKEN=xoxb-your-slack-token
+SLACK_WEBHOOK_URL=https://hooks.slack.com/services/YOUR/WEBHOOK
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# Production
+NODE_ENV=production
+PORT=3001
+FRONTEND_URL=https://your-frontend-url.com
+```
+
+## 🏗️ Architecture
+
+- **Frontend**: Next.js 16, React 19, TypeScript
+- **Backend**: Node.js, Express, TypeScript
+- **Database**: PostgreSQL
+- **Search**: Elasticsearch
+- **AI**: OpenAI GPT-4
+- **Real-time**: IMAP IDLE mode
+
+## 📱 Features
+
+- ✅ Real-time email synchronization
+- ✅ AI-powered categorization (5 categories)
+- ✅ Smart reply suggestions with RAG
+- ✅ Elasticsearch-powered search
+- ✅ Slack & webhook notifications
+- ✅ Multi-account support
+- ✅ Attachment handling
+
+## 🔍 Live Demo
+
+[Your Deployment Link Here]
+
+After deployment, your application will be available at the provided URL with full email onebox functionality.
