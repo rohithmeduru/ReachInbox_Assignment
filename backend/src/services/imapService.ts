@@ -51,8 +51,15 @@ export class ImapService {
 
         // Listen for new messages
         client.on('exists', async (data) => {
-          if (data.uid) {
-            await this.fetchAndProcessEmail(client, data.uid, account, folder);
+          // For new messages, we need to get the latest UID
+          try {
+            const status = await client.status(folder);
+            if (status.uidNext && status.uidNext > 1) {
+              const latestUid = status.uidNext - 1;
+              await this.fetchAndProcessEmail(client, latestUid, account, folder);
+            }
+          } catch (error) {
+            logger.error(`Failed to fetch latest UID for folder ${folder}:`, error);
           }
         });
 
