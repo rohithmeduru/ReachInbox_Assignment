@@ -119,7 +119,7 @@ export class ElasticsearchService {
         filter.push({ range: { date: dateRange } });
       }
 
-      const searchQuery = {
+      const searchQuery: any = {
         query: {
           bool: {
             must: must.length > 0 ? must : [{ match_all: {} }],
@@ -127,8 +127,8 @@ export class ElasticsearchService {
           }
         },
         sort: [
-          { date: { order: 'desc' as const } },
-          { _score: { order: 'desc' as const } }
+          { date: { order: 'desc' } },
+          { _score: { order: 'desc' } }
         ],
         from: params.offset || 0,
         size: params.limit || 50
