@@ -67,10 +67,14 @@ app.use('*', (req, res) => {
 // Initialize services and start server
 async function startServer() {
   try {
-    // Initialize Elasticsearch
+    // Initialize Elasticsearch (optional for demo)
     logger.info('Initializing Elasticsearch...');
-    await elasticsearchService.initializeIndex();
-    logger.info('Elasticsearch initialized successfully');
+    try {
+      await elasticsearchService.initializeIndex();
+      logger.info('Elasticsearch initialized successfully');
+    } catch (error) {
+      logger.warn('Elasticsearch not available, running in demo mode');
+    }
 
     // Start server
     app.listen(PORT, () => {
