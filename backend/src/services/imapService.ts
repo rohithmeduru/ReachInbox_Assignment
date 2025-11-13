@@ -53,7 +53,7 @@ export class ImapService {
         client.on('exists', async (data) => {
           // For new messages, we need to get the latest UID
           try {
-            const status = await client.status(folder);
+            const status = await client.status(folder, { uidNext: true });
             if (status.uidNext && status.uidNext > 1) {
               const latestUid = status.uidNext - 1;
               await this.fetchAndProcessEmail(client, latestUid, account, folder);
