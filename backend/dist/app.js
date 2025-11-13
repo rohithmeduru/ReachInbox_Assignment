@@ -60,10 +60,15 @@ app.use('*', (req, res) => {
 // Initialize services and start server
 async function startServer() {
     try {
-        // Initialize Elasticsearch
+        // Initialize Elasticsearch (optional for demo)
         logger_1.logger.info('Initializing Elasticsearch...');
-        await elasticsearchService_1.elasticsearchService.initializeIndex();
-        logger_1.logger.info('Elasticsearch initialized successfully');
+        try {
+            await elasticsearchService_1.elasticsearchService.initializeIndex();
+            logger_1.logger.info('Elasticsearch initialized successfully');
+        }
+        catch (error) {
+            logger_1.logger.warn('Elasticsearch not available, running in demo mode');
+        }
         // Start server
         app.listen(PORT, () => {
             logger_1.logger.info(`🚀 Email Onebox API server running on port ${PORT}`);
