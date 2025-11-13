@@ -1,4 +1,5 @@
-export declare const esClient: any;
+import { Client } from '@elastic/elasticsearch';
+export declare const esClient: Client;
 export declare const emailIndexName = "emails";
 export declare const emailMapping: {
     mappings: {
