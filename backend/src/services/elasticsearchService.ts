@@ -205,15 +205,15 @@ export class ElasticsearchService {
       });
 
       return {
-        total: response.body.hits.total.value,
-        byCategory: response.body.aggregations.categories.buckets.reduce(
+        total: response.hits.total.value,
+        byCategory: response.aggregations.categories.buckets.reduce(
           (acc: Record<string, number>, bucket: any) => {
             acc[bucket.key] = bucket.doc_count;
             return acc;
           },
           {}
         ),
-        byFolder: response.body.aggregations.folders.buckets.reduce(
+        byFolder: response.aggregations.folders.buckets.reduce(
           (acc: Record<string, number>, bucket: any) => {
             acc[bucket.key] = bucket.doc_count;
             return acc;
