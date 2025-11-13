@@ -167,7 +167,7 @@ export class ElasticsearchService {
       });
 
       return {
-        ...response._source,
+        ...(response._source as any),
         id: response._id
       };
     } catch (error: any) {
