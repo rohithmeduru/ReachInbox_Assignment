@@ -163,8 +163,8 @@ export class ElasticsearchService {
       });
 
       return {
-        ...response.body._source,
-        id: response.body._id
+        ...response._source,
+        id: response._id
       };
     } catch (error: any) {
       if (error.meta?.statusCode === 404) {
