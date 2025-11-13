@@ -53,6 +53,27 @@ router.get('/', async (req, res) => {
   }
 });
 
+// GET /api/emails/stats - Get email statistics
+router.get('/stats', async (req, res) => {
+  try {
+    const { accountId } = req.query;
+
+    const stats = await elasticsearchService.getEmailStats(accountId as string);
+
+    res.json({
+      success: true,
+      data: stats
+    });
+
+  } catch (error) {
+    logger.error('Error in GET /api/emails/stats:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to fetch email statistics'
+    });
+  }
+});
+
 // GET /api/emails/:id - Get specific email
 router.get('/:id', async (req, res) => {
   try {
