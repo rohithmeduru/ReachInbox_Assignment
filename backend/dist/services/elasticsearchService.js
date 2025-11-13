@@ -127,9 +127,12 @@ class ElasticsearchService {
                 ...hit._source,
                 id: hit._id
             }));
+            const total = typeof response.hits.total === 'number'
+                ? response.hits.total
+                : response.hits.total?.value || 0;
             return {
                 emails,
-                total: response.hits.total.value
+                total
             };
         }
         catch (error) {
@@ -179,16 +182,21 @@ class ElasticsearchService {
                     }
                 }
             });
+            const total = typeof response.hits.total === 'number'
+                ? response.hits.total
+                : response.hits.total?.value || 0;
+            const categoriesAgg = response.aggregations?.categories;
+            const foldersAgg = response.aggregations?.folders;
             return {
-                total: response.hits.total.value,
-                byCategory: response.aggregations.categories.buckets.reduce((acc, bucket) => {
+                total,
+                byCategory: categoriesAgg?.buckets?.reduce((acc, bucket) => {
                     acc[bucket.key] = bucket.doc_count;
                     return acc;
-                }, {}),
-                byFolder: response.aggregations.folders.buckets.reduce((acc, bucket) => {
+                }, {}) || {},
+                byFolder: foldersAgg?.buckets?.reduce((acc, bucket) => {
                     acc[bucket.key] = bucket.doc_count;
                     return acc;
-                }, {})
+                }, {}) || {}
             };
         }
         catch (error) {
