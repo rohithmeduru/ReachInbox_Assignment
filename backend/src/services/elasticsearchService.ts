@@ -208,22 +208,29 @@ export class ElasticsearchService {
         }
       });
 
+      const total = typeof response.hits.total === 'number'
+        ? response.hits.total
+        : response.hits.total?.value || 0;
+
+      const categoriesAgg = response.aggregations?.categories as any;
+      const foldersAgg = response.aggregations?.folders as any;
+
       return {
-        total: response.hits.total.value,
-        byCategory: response.aggregations.categories.buckets.reduce(
+        total,
+        byCategory: categoriesAgg?.buckets?.reduce(
           (acc: Record<string, number>, bucket: any) => {
             acc[bucket.key] = bucket.doc_count;
             return acc;
           },
           {}
-        ),
-        byFolder: response.aggregations.folders.buckets.reduce(
+        ) || {},
+        byFolder: foldersAgg?.buckets?.reduce(
           (acc: Record<string, number>, bucket: any) => {
             acc[bucket.key] = bucket.doc_count;
             return acc;
           },
           {}
-        )
+        ) || {}
       };
 
     } catch (error) {
