@@ -205,7 +205,6 @@ const ReplySuggestion: React.FC<ReplySuggestionProps> = ({ emailId }) => {
             {/* Reply Actions */}
             <div className="flex items-center space-x-2">
               <button
-                onClick={() => window.location.href = `mailto:${email.from.email}`}
                 className="px-4 py-2 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
               >
                 Reply in Email Client
