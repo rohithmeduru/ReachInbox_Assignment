@@ -79,13 +79,11 @@ export const useEmailStore = create<EmailStore>((set, get) => ({
         params: searchParams
       });
 
-      if (response.data.success && response.data.data) {
-        set({
-          emails: response.data.data.emails,
-          total: response.data.data.total,
-          searchParams
-        });
-      }
+      set({
+        emails: response.data.emails,
+        total: response.data.total,
+        searchParams
+      });
     } catch (error) {
       set({ error: 'Failed to fetch emails' });
       console.error('Fetch emails error:', error);
