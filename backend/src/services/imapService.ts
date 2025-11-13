@@ -101,11 +101,12 @@ export class ImapService {
           since: thirtyDaysAgo,
         }, { uid: true });
 
-        logger.info(`Found ${searchResult.length} emails in ${folder} for ${account.email}`);
+        const uids = Array.isArray(searchResult) ? searchResult : [];
+        logger.info(`Found ${uids.length} emails in ${folder} for ${account.email}`);
 
         // Process in batches to avoid memory issues
-        for (let i = 0; i < searchResult.length; i += EMAIL_BATCH_SIZE) {
-          const batch = searchResult.slice(i, i + EMAIL_BATCH_SIZE);
+        for (let i = 0; i < uids.length; i += EMAIL_BATCH_SIZE) {
+          const batch = uids.slice(i, i + EMAIL_BATCH_SIZE);
 
           for (const uid of batch) {
             await this.fetchAndProcessEmail(client, uid, account, folder);
