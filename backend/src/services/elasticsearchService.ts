@@ -11,7 +11,7 @@ export class ElasticsearchService {
       if (!exists) {
         await esClient.indices.create({
           index: emailIndexName,
-          body: emailMapping
+          body: emailMapping as any
         });
         logger.info(`Created Elasticsearch index: ${emailIndexName}`);
       } else {
