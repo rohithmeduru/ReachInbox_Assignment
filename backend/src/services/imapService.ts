@@ -136,17 +136,17 @@ export class ImapService {
       const message = await client.fetchOne(uid, {
         source: true,
         envelope: true,
-        flags: true,
-        structure: true
+        flags: true
       });
 
-      if (!message.source) {
+      const messageData = message as any;
+      if (!messageData.source) {
         logger.warn(`No source found for UID ${uid} in ${folder}`);
         return;
       }
 
       // Parse email using mailparser
-      const parsed = await simpleParser(message.source);
+      const parsed = await simpleParser(messageData.source);
 
       // Extract email data
       const email: Email = {
